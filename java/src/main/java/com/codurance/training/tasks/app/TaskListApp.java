@@ -37,7 +37,7 @@ public class TaskListApp implements Runnable {
             if (command.equals("quit")) {
                 break;
             }
-            this.out.printf(commandController.execute(command).exeOut());
+            this.out.printf(commandController.exe(command).exeOutput());
         }
     }
 

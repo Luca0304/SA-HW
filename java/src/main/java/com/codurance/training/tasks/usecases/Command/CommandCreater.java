@@ -1,7 +1,6 @@
-package com.codurance.training.tasks.adapters.command;
+package com.codurance.training.tasks.usecases.Command;
 
 import com.codurance.training.tasks.entities.ProjectList;
-import com.codurance.training.tasks.usecases.Command.Command;
 import com.codurance.training.tasks.usecases.input.InputInterface;
 import com.codurance.training.tasks.usecases.Command.CommandMethod.showCommand;
 import com.codurance.training.tasks.usecases.Command.CommandMethod.addCommand;

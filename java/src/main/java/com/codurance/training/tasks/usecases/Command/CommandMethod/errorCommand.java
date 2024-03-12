@@ -6,7 +6,6 @@ import com.codurance.training.tasks.usecases.output.CommandOut;
 
 public class errorCommand implements Command {
     public String command;
-
     private CommandOut commandOut;
     public errorCommand(String command) {
         this.command = command;
