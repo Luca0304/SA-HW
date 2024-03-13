@@ -2,6 +2,7 @@ package com.codurance.training.tasks.app;
 
 
 import com.codurance.training.tasks.adapters.controller.CommandController;
+import com.codurance.training.tasks.adapters.repository.Storage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +13,7 @@ public class TaskListApp implements Runnable {
     private final BufferedReader in;
     public final PrintWriter out;
     private final CommandController commandController = new CommandController();
+    private final Storage storage = new Storage();
 
     public static void main(String[] args) throws Exception {
         BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
@@ -37,8 +39,7 @@ public class TaskListApp implements Runnable {
             if (command.equals("quit")) {
                 break;
             }
-            this.out.printf(commandController.exe(command).exeOutput());
+            this.out.printf(commandController.exe(command,storage).exeOutput());
         }
     }
-
 }

@@ -1,5 +1,6 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
+import com.codurance.training.tasks.adapters.repository.Storage;
 import com.codurance.training.tasks.usecases.Command.Command;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
@@ -24,7 +25,7 @@ public class helpCommand implements Command {
     }
 
     @Override
-    public CommandOut executeCommand() {
+    public CommandOut executeCommand(Storage storage) {
         help();
         return this.commandOut;
     }

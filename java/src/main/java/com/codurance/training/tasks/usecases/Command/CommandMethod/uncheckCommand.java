@@ -1,9 +1,11 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
-import com.codurance.training.tasks.entities.ProjectList;
-import com.codurance.training.tasks.entities.Project;
-import com.codurance.training.tasks.entities.Task;
+import com.codurance.training.tasks.adapters.repository.Storage;
 import com.codurance.training.tasks.usecases.Command.Command;
+import com.codurance.training.tasks.usecases.Dto.Mapper.ProjectListMapper;
+import com.codurance.training.tasks.usecases.Dto.ProjectDTO;
+import com.codurance.training.tasks.usecases.Dto.ProjectListDTO;
+import com.codurance.training.tasks.usecases.Dto.TaskDTO;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
 import java.util.List;
@@ -12,16 +14,16 @@ import java.util.Objects;
 
 public class uncheckCommand implements Command {
     public String id;
-    private final ProjectList projectList;
+    private final ProjectListDTO projectListDTO;
     private CommandOut commandOut;
-    public uncheckCommand(String id, ProjectList projectList) {
+    public uncheckCommand(String id, ProjectListDTO projectListDTO) {
         this.id = id;
-        this.projectList = projectList;
+        this.projectListDTO = projectListDTO;
         this.commandOut = new CommandOut();
     }
     private void setUnDone(String idString) {
-        for (Map.Entry<Project, List<Task>> project : projectList.getTasks().entrySet()) {
-            for (Task task : project.getValue()) {
+        for (Map.Entry<ProjectDTO, List<TaskDTO>> project : projectListDTO.getTasks().entrySet()) {
+            for (TaskDTO task : project.getValue()) {
                 if (Objects.equals(task.getId(), idString)) {
                     task.setDone(false);
                     return;
@@ -41,8 +43,9 @@ public class uncheckCommand implements Command {
     }
 
     @Override
-    public CommandOut executeCommand() {
+    public CommandOut executeCommand(Storage storage) {
         uncheck(this.id);
+        storage.save(ProjectListMapper.mapToProjectList(projectListDTO));
         return this.commandOut;
     }
 

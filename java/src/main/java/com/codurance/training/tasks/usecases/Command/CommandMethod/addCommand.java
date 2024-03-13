@@ -1,9 +1,11 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
-import com.codurance.training.tasks.entities.Project;
-import com.codurance.training.tasks.entities.Task;
-import com.codurance.training.tasks.entities.ProjectList;
+import com.codurance.training.tasks.adapters.repository.Storage;
 import com.codurance.training.tasks.usecases.Command.Command;
+import com.codurance.training.tasks.usecases.Dto.Mapper.ProjectListMapper;
+import com.codurance.training.tasks.usecases.Dto.ProjectDTO;
+import com.codurance.training.tasks.usecases.Dto.ProjectListDTO;
+import com.codurance.training.tasks.usecases.Dto.TaskDTO;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
 import java.util.ArrayList;
@@ -12,12 +14,12 @@ import java.util.Set;
 
 public class addCommand implements Command {
     public String activity;
-    private final ProjectList projectList;
+    private final ProjectListDTO projectListDTO;
     private CommandOut commandOut;
 
-    public addCommand(String activity, ProjectList projectList){
+    public addCommand(String activity, ProjectListDTO projectListDTO){
         this.activity = activity;
-        this.projectList = projectList;
+        this.projectListDTO = projectListDTO;
         this.commandOut = new CommandOut();
     }
 
@@ -25,11 +27,11 @@ public class addCommand implements Command {
         String[] subcommandRest = commandLine.split(" ", 2);
         String subcommand = subcommandRest[0];
         if (subcommand.equals("project")) {
-            addProject(new Project(subcommandRest[1]));
+            addProject(new ProjectDTO(subcommandRest[1]));
         } else if (subcommand.equals("task")) {
             String[] projectTask = subcommandRest[1].split(" ", 2);
-            Set<Project> projects = projectList.getTasks().keySet();
-            Project project = projects.stream()
+            Set<ProjectDTO> projects = projectListDTO.getTasks().keySet();
+            ProjectDTO project = projects.stream()
                     .filter(getProject -> Objects.equals(getProject.getName(), projectTask[0]))
                     .findFirst()
                     .orElse(null);
@@ -37,17 +39,17 @@ public class addCommand implements Command {
         }
     }
 
-    private void addProject(Project project) {
-        projectList.getTasks().put(project, new ArrayList<Task>());
+    private void addProject(ProjectDTO projectDTO) {
+        projectListDTO.getTasks().put(projectDTO, new ArrayList<TaskDTO>());
     }
 
-    private void addTask(Project project, String description) {
+    private void addTask(ProjectDTO project, String description) {
         if (project == null) {
             commandOut.addCommandOut("Could not find a project with the name.");
             commandOut.addCommandOut("\n");
             return;
         }
-        projectList.getTasks().get(project).add(new Task(projectList.nextId(), description, false));
+        projectListDTO.getTasks().get(project).add(new TaskDTO(projectListDTO.getNextId(), description, false));
     }
 
 
@@ -57,8 +59,9 @@ public class addCommand implements Command {
     }
 
     @Override
-    public CommandOut executeCommand() {
+    public CommandOut executeCommand(Storage storage) {
         add(this.activity);
+        storage.save(ProjectListMapper.mapToProjectList(projectListDTO));
         return this.commandOut;
     }
 

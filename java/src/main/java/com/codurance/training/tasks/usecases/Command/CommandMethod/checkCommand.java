@@ -1,9 +1,11 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
-import com.codurance.training.tasks.entities.Project;
-import com.codurance.training.tasks.entities.Task;
-import com.codurance.training.tasks.entities.ProjectList;
+import com.codurance.training.tasks.adapters.repository.Storage;
 import com.codurance.training.tasks.usecases.Command.Command;
+import com.codurance.training.tasks.usecases.Dto.Mapper.ProjectListMapper;
+import com.codurance.training.tasks.usecases.Dto.ProjectDTO;
+import com.codurance.training.tasks.usecases.Dto.ProjectListDTO;
+import com.codurance.training.tasks.usecases.Dto.TaskDTO;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
 import java.util.List;
@@ -11,17 +13,17 @@ import java.util.Map;
 
 public class checkCommand implements Command {
     public String id;
-    private final ProjectList projectList;
+    private final ProjectListDTO projectListDTO;
 
     private CommandOut commandOut;
-    public checkCommand(String id, ProjectList projectList) {
+    public checkCommand(String id, ProjectListDTO projectListDTO) {
         this.id = id;
-        this.projectList = projectList;
+        this.projectListDTO = projectListDTO;
         this.commandOut = new CommandOut();
     }
     private void setDone(String idString) {
-        for (Map.Entry<Project, List<Task>> project : projectList.getTasks().entrySet()) {
-            for (Task task : project.getValue()) {
+        for (Map.Entry<ProjectDTO, List<TaskDTO>> project : projectListDTO.getTasks().entrySet()) {
+            for (TaskDTO task : project.getValue()) {
                 if (String.valueOf(task.getId().getTaskId()).equals(idString)) {
                     task.setDone(true);
                     return;
@@ -41,8 +43,9 @@ public class checkCommand implements Command {
     }
 
     @Override
-    public CommandOut executeCommand() {
+    public CommandOut executeCommand(Storage storage) {
         check(this.id);
+        storage.save(ProjectListMapper.mapToProjectList(projectListDTO));
         return this.commandOut;
     }
 

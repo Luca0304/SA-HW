@@ -1,26 +1,27 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
-import com.codurance.training.tasks.entities.Project;
-import com.codurance.training.tasks.entities.ProjectList;
-import com.codurance.training.tasks.entities.Task;
+import com.codurance.training.tasks.adapters.repository.Storage;
 import com.codurance.training.tasks.usecases.Command.Command;
+import com.codurance.training.tasks.usecases.Dto.ProjectDTO;
+import com.codurance.training.tasks.usecases.Dto.ProjectListDTO;
+import com.codurance.training.tasks.usecases.Dto.TaskDTO;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
 import java.util.List;
 import java.util.Map;
 
 public class showCommand implements Command {
-    private final ProjectList projectList;
+    private final ProjectListDTO projectListDTO;
     private final CommandOut commandOut;
-    public showCommand(ProjectList projectList) {
-        this.projectList = projectList;
+    public showCommand(ProjectListDTO projectListDTO) {
+        this.projectListDTO = projectListDTO;
         this.commandOut = new CommandOut();
     }
     private void show() {
-        for (Map.Entry<Project, List<Task>> project : projectList.getTasks().entrySet()) {
+        for (Map.Entry<ProjectDTO, List<TaskDTO>> project : projectListDTO.getTasks().entrySet()) {
             commandOut.addCommandOut(String.valueOf(project.getKey().getName()));
             commandOut.addCommandOut("\r\n");
-            for (Task task : project.getValue()) {
+            for (TaskDTO task : project.getValue()) {
                 commandOut.addCommandOut(String.format("    [%c] %s: %s%n", (task.isDone() ? 'x' : ' '), task.getId().getTaskId(), task.getDescription()));
             }
             commandOut.addCommandOut("\r\n");
@@ -33,7 +34,7 @@ public class showCommand implements Command {
     }
 
     @Override
-    public CommandOut executeCommand() {
+    public CommandOut executeCommand(Storage storage) {
         show();
         return this.commandOut;
     }
