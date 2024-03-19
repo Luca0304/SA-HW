@@ -1,11 +1,9 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
-import com.codurance.training.tasks.adapters.repository.Storage;
+import com.codurance.training.tasks.entities.Project;
+import com.codurance.training.tasks.entities.Task;
+import com.codurance.training.tasks.entities.ProjectList;
 import com.codurance.training.tasks.usecases.Command.Command;
-import com.codurance.training.tasks.usecases.Dto.Mapper.ProjectListMapper;
-import com.codurance.training.tasks.usecases.Dto.ProjectDTO;
-import com.codurance.training.tasks.usecases.Dto.ProjectListDTO;
-import com.codurance.training.tasks.usecases.Dto.TaskDTO;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
 import java.util.List;
@@ -13,18 +11,18 @@ import java.util.Map;
 
 public class checkCommand implements Command {
     public String id;
-    private final ProjectListDTO projectListDTO;
+    private final ProjectList projectList;
 
     private CommandOut commandOut;
-    public checkCommand(String id, ProjectListDTO projectListDTO) {
+    public checkCommand(String id, ProjectList projectList) {
         this.id = id;
-        this.projectListDTO = projectListDTO;
+        this.projectList = projectList;
         this.commandOut = new CommandOut();
     }
     private void setDone(String idString) {
-        for (Map.Entry<ProjectDTO, List<TaskDTO>> project : projectListDTO.getTasks().entrySet()) {
-            for (TaskDTO task : project.getValue()) {
-                if (String.valueOf(task.getId().getTaskId()).equals(idString)) {
+        for (Map.Entry<Project, List<Task>> project : projectList.entrySet()) {
+            for (Task task : project.getValue()) {
+                if (String.valueOf(task.getId()).equals(idString)) {
                     task.setDone(true);
                     return;
                 }
@@ -43,19 +41,8 @@ public class checkCommand implements Command {
     }
 
     @Override
-    public CommandOut executeCommand(Storage storage) {
+    public CommandOut executeCommand() {
         check(this.id);
-        storage.save(ProjectListMapper.mapToProjectList(projectListDTO));
         return this.commandOut;
-    }
-
-    @Override
-    public String exeOut() {
-        return commandOut.getCommandOut();
-    }
-
-    @Override
-    public CommandOut getCommandOut() {
-        return commandOut;
     }
 }

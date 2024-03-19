@@ -1,11 +1,12 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
-import com.codurance.training.tasks.adapters.repository.Storage;
+import com.codurance.training.tasks.entities.ProjectList;
 import com.codurance.training.tasks.usecases.Command.Command;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
 public class errorCommand implements Command {
     public String command;
+
     private CommandOut commandOut;
     public errorCommand(String command) {
         this.command = command;
@@ -22,18 +23,8 @@ public class errorCommand implements Command {
     }
 
     @Override
-    public CommandOut executeCommand(Storage storage) {
+    public CommandOut executeCommand() {
         error(this.command);
         return this.commandOut;
-    }
-
-    @Override
-    public String exeOut() {
-        return commandOut.getCommandOut();
-    }
-
-    @Override
-    public CommandOut getCommandOut() {
-        return commandOut;
     }
 }

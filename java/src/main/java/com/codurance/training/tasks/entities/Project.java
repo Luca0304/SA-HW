@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Project {
-    private final String name;
+    private final ProjectName name;
     private final List<Task> tasks;
 
-    public Project(String name) {
+    public Project(ProjectName name) {
         this.name = name;
         this.tasks = new ArrayList<>();
     }
 
     public String getName() {
-        return name;
+        return name.toString();
     }
-
     public List<Task> getTasks() {
         return tasks;
     }

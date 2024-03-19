@@ -1,13 +1,11 @@
 package com.codurance.training.tasks.entities;
 
-public class TaskId {
-
-    private final long id;
-    public TaskId(long id) {
-        this.id = id;
+public record TaskId(long value) {
+    public static TaskId of(long id) {
+        return new TaskId(id);
     }
-
-    public long getTaskId() {
-        return id;
+    @Override
+    public String toString(){
+        return String.valueOf(value);
     }
 }
