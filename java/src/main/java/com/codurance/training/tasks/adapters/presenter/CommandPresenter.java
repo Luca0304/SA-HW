@@ -1,6 +1,5 @@
 package com.codurance.training.tasks.adapters.presenter;
 
-import com.codurance.training.tasks.usecases.Command.Command;
 import com.codurance.training.tasks.usecases.output.OutputInterface;
 public class CommandPresenter {
     public OutputInterface commandOut;

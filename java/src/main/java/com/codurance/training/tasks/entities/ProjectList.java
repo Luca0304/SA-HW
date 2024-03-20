@@ -29,6 +29,10 @@ public class ProjectList {
         return this.tasks.get(project);
     }
 
+    public Set<Project> keySet(){
+        return tasks.keySet();
+    }
+
 
 
 }

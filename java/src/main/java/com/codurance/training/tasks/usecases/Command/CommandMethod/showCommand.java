@@ -17,21 +17,15 @@ public class showCommand implements Command {
         this.commandOut = new CommandOut();
     }
     private void show() {
-        for (Map.Entry<Project, List<Task>> project : projectList.entrySet()) {
-            commandOut.addCommandOut(project.getKey().getName());
+        for (Map.Entry<Project, List<Task>> projectListEntry : projectList.entrySet()) {
+            commandOut.addCommandOut(projectListEntry.getKey().getName());
             commandOut.addCommandOut("\r\n");
-            for (Task task : project.getValue()) {
+            for (Task task : projectListEntry.getValue()) {
                 commandOut.addCommandOut(String.format("    [%c] %s: %s%n", (task.isDone() ? 'x' : ' '), task.getId().toString(), task.getDescription()));
             }
             commandOut.addCommandOut("\r\n");
         }
     }
-
-    @Override
-    public void executeCommandMethod() {
-        show();
-    }
-
     @Override
     public CommandOut executeCommand() {
         show();

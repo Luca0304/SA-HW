@@ -6,8 +6,7 @@ import com.codurance.training.tasks.usecases.output.CommandOut;
 
 public class errorCommand implements Command {
     public String command;
-
-    private CommandOut commandOut;
+    private final CommandOut commandOut;
     public errorCommand(String command) {
         this.command = command;
         this.commandOut = new CommandOut();
@@ -15,11 +14,6 @@ public class errorCommand implements Command {
     private void error(String command) {
         commandOut.addCommandOut(String.format("I don't know what the command \"%s\" is.", command));
         commandOut.addCommandOut("\n");
-    }
-
-    @Override
-    public void executeCommandMethod() {
-        error(this.command);
     }
 
     @Override

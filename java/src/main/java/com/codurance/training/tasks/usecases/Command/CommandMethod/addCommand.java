@@ -11,7 +11,7 @@ import java.util.Set;
 public class addCommand implements Command {
     public String activity;
     private final ProjectList projectList;
-    private CommandOut commandOut;
+    private final CommandOut commandOut;
 
     public addCommand(String activity, ProjectList projectList){
         this.activity = activity;
@@ -25,14 +25,19 @@ public class addCommand implements Command {
         if (subcommand.equals("project")) {
             addProject(new Project(ProjectName.of(subcommandRest[1])));
         } else if (subcommand.equals("task")) {
-            String[] projectTask = subcommandRest[1].split(" ", 2);
-            Set<Project> projects = projectList.getTasks().keySet();
-            Project project = projects.stream()
-                    .filter(getProject -> Objects.equals(getProject.getName(), projectTask[0]))
-                    .findFirst()
-                    .orElse(null);
-            addTask(project, projectTask[1]);
+            //projectWithTask[0]=projectName , projectWithTask[1]=task
+            String[] projectWithTask = subcommandRest[1].split(" ", 2);
+            Project project = getExistProject(projectWithTask[0]);
+            addTask(project, projectWithTask[1]);
         }
+    }
+
+    private Project getExistProject(String projectName) {
+        Set<Project> projects = projectList.keySet();
+        return projects.stream()
+                .filter(getProject -> getProject.getName().equals(projectName))
+                .findFirst()
+                .orElse(null);
     }
 
     private void addProject(Project project) {
@@ -46,12 +51,6 @@ public class addCommand implements Command {
             return;
         }
         projectList.get(project).add(new Task(TaskId.of(projectList.nextId()), description, false));
-    }
-
-
-    @Override
-    public void executeCommandMethod() {
-        add(this.activity);
     }
 
     @Override

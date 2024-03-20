@@ -1,4 +1,4 @@
-package com.codurance.training.tasks.usecases.Command;
+package com.codurance.training.tasks.adapters.Command;
 
 import com.codurance.training.tasks.entities.ProjectList;
 import com.codurance.training.tasks.usecases.Command.Command;

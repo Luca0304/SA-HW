@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 
 public class TaskListApp implements Runnable {
     private final BufferedReader in;
-    public final PrintWriter out;
+    private final PrintWriter out;
     private final CommandController commandController = new CommandController();
 
     public static void main(String[] args) throws Exception {

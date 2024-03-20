@@ -13,15 +13,15 @@ import java.util.Objects;
 public class uncheckCommand implements Command {
     public String id;
     private final ProjectList projectList;
-    private CommandOut commandOut;
+    private final CommandOut commandOut;
     public uncheckCommand(String id, ProjectList projectList) {
         this.id = id;
         this.projectList = projectList;
         this.commandOut = new CommandOut();
     }
     private void setUnDone(String idString) {
-        for (Map.Entry<Project, List<Task>> project : projectList.getTasks().entrySet()) {
-            for (Task task : project.getValue()) {
+        for (Map.Entry<Project, List<Task>> projectListEntry : projectList.entrySet()) {
+            for (Task task : projectListEntry.getValue()) {
                 if (task.getId().toString().equals(idString)) {
                     task.setDone(false);
                     return;
@@ -33,11 +33,6 @@ public class uncheckCommand implements Command {
     }
     public void uncheck(String idString) {
         setUnDone(idString);
-    }
-
-    @Override
-    public void executeCommandMethod() {
-        uncheck(this.id);
     }
 
     @Override

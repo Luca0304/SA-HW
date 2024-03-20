@@ -19,11 +19,6 @@ public class helpCommand implements Command {
     }
 
     @Override
-    public void executeCommandMethod() {
-        help();
-    }
-
-    @Override
     public CommandOut executeCommand() {
         help();
         return this.commandOut;
