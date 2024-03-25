@@ -1,3 +1,7 @@
+HW4
+
+根據上課修改 entites layer 修改 ProjectList 並且修改 ProjectList 相關的函式，並且修改 usecases -> Command -> 每一個(CommandMethod) executeCommand 將抽出的函式inline回去
+
 HW3
 
 根據上課修改 entites layer 新增 record ProjectName 並修改 TaskId 為 record 並且修改 ProjectList 以及相關的函式
