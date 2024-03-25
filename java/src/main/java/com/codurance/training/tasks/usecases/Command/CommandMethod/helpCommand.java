@@ -8,19 +8,14 @@ public class helpCommand implements Command {
     public helpCommand() {
         this.commandOut = new CommandOut();
     }
-
-    private void help() {
+    @Override
+    public CommandOut executeCommand() {
         commandOut.addCommandOut("Commands:\n");
         commandOut.addCommandOut("  show\n");
         commandOut.addCommandOut("  add project <project name>\n");
         commandOut.addCommandOut("  add task <project name> <task description>\n");
         commandOut.addCommandOut("  check <task ID>\n");
         commandOut.addCommandOut("  uncheck <task ID>\n");
-    }
-
-    @Override
-    public CommandOut executeCommand() {
-        help();
         return this.commandOut;
     }
 }

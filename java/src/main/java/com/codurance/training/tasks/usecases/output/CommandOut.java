@@ -8,11 +8,9 @@ public class CommandOut implements OutputInterface{
     public CommandOut() {
         this.commandOut = new ArrayList<>();
     }
-
     public void addCommandOut(String commandOut){
         this.commandOut.add(commandOut);
     }
-
     public String getCommandOut(){
         StringBuilder merged = new StringBuilder();
         for (String line : commandOut) {

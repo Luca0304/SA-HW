@@ -1,6 +1,5 @@
 package com.codurance.training.tasks.usecases.Command.CommandMethod;
 
-import com.codurance.training.tasks.entities.ProjectList;
 import com.codurance.training.tasks.usecases.Command.Command;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
@@ -11,14 +10,9 @@ public class errorCommand implements Command {
         this.command = command;
         this.commandOut = new CommandOut();
     }
-    private void error(String command) {
-        commandOut.addCommandOut(String.format("I don't know what the command \"%s\" is.", command));
-        commandOut.addCommandOut("\n");
-    }
-
     @Override
     public CommandOut executeCommand() {
-        error(this.command);
+        commandOut.addCommandOut(String.format("I don't know what the command \"%s\" is.", this.command)+"\n");
         return this.commandOut;
     }
 }

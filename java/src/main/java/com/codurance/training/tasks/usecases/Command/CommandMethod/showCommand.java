@@ -6,9 +6,6 @@ import com.codurance.training.tasks.entities.Task;
 import com.codurance.training.tasks.usecases.Command.Command;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
-import java.util.List;
-import java.util.Map;
-
 public class showCommand implements Command {
     private final ProjectList projectList;
     private final CommandOut commandOut;
@@ -16,19 +13,16 @@ public class showCommand implements Command {
         this.projectList = projectList;
         this.commandOut = new CommandOut();
     }
-    private void show() {
-        for (Map.Entry<Project, List<Task>> projectListEntry : projectList.entrySet()) {
-            commandOut.addCommandOut(projectListEntry.getKey().getName());
+    @Override
+    public CommandOut executeCommand() {
+        for (Project project : projectList.getProjects()) {
+            commandOut.addCommandOut(project.getName().value());
             commandOut.addCommandOut("\r\n");
-            for (Task task : projectListEntry.getValue()) {
+            for (Task task : project.getTasks()) {
                 commandOut.addCommandOut(String.format("    [%c] %s: %s%n", (task.isDone() ? 'x' : ' '), task.getId().toString(), task.getDescription()));
             }
             commandOut.addCommandOut("\r\n");
         }
-    }
-    @Override
-    public CommandOut executeCommand() {
-        show();
         return this.commandOut;
     }
 }

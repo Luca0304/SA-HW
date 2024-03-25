@@ -5,7 +5,6 @@ public class CommandIn implements InputInterface {
     public CommandIn(String commandIn) {
         this.commandIn = commandIn;
     }
-
     public String getCommandIn(){
         return this.commandIn;
     }

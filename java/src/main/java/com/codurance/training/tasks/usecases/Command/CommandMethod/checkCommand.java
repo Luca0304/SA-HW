@@ -6,9 +6,6 @@ import com.codurance.training.tasks.entities.ProjectList;
 import com.codurance.training.tasks.usecases.Command.Command;
 import com.codurance.training.tasks.usecases.output.CommandOut;
 
-import java.util.List;
-import java.util.Map;
-
 public class checkCommand implements Command {
     public String id;
     private final ProjectList projectList;
@@ -18,25 +15,18 @@ public class checkCommand implements Command {
         this.projectList = projectList;
         this.commandOut = new CommandOut();
     }
-    private void setDone(String idString) {
-        for (Map.Entry<Project, List<Task>> projectListEntry : projectList.entrySet()) {
-            for (Task task : projectListEntry.getValue()) {
-                if (task.getId().toString().equals(idString)) {
+    public CommandOut executeCommand() {
+        for (Project project : projectList.getProjects()) {
+            for (Task task : project.getTasks()) {
+                if (task.getId().toString().equals(this.id)) {
                     task.setDone(true);
-                    return;
+                    return this.commandOut;
                 }
             }
         }
-        commandOut.addCommandOut(String.format("Could not find a task with an ID of %s.", idString));
+        commandOut.addCommandOut(String.format("Could not find a task with an ID of %s.", this.id));
         commandOut.addCommandOut("\n");
-    }
-    private void check(String idString) {
-        setDone(idString);
-    }
-
-    @Override
-    public CommandOut executeCommand() {
-        check(this.id);
         return this.commandOut;
     }
+
 }
