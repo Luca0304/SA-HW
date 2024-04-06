@@ -7,6 +7,26 @@
 
     <name>Task List</name>
 
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.jar.plugin.version>3.3.0</maven.jar.plugin.version>
+        <maven.compiler.plugin.version>3.10.1</maven.compiler.plugin.version>
+        <junit.jupiter.engine.version>5.10.2</junit.jupiter.engine.version>
+        <junit.jupiter.api.version>5.10.2</junit.jupiter.api.version>
+        <junit-platform-suite-engine.version>1.9.2</junit-platform-suite-engine.version>
+        <junit-platform-suite-api.version>1.9.2</junit-platform-suite-api.version>
+        <maven.javadoc.plugin.version>3.4.1</maven.javadoc.plugin.version>
+        <maven.gpg.plugin.version>1.6</maven.gpg.plugin.version>
+        <maven.source.plugin.version>3.2.1</maven.source.plugin.version>
+        <nexus.staging.maven.plugin.version>1.6.13</nexus.staging.maven.plugin.version>
+        <jackson.version>2.14.2</jackson.version>
+        <revision>0.0.2-beta</revision>
+        <ezddd.version>LATEST</ezddd.version>
+        <ucontract.version>LATEST</ucontract.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -19,6 +39,21 @@
             <artifactId>java-hamcrest</artifactId>
             <version>2.0.0.0</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>tw.teddysoft.ezddd</groupId>
+            <artifactId>ezddd-core</artifactId>
+            <version>${ezddd.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>tw.teddysoft.ezddd</groupId>
+            <artifactId>ezcqrs</artifactId>
+            <version>${ezddd.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>tw.teddysoft.ezddd</groupId>
+            <artifactId>ezddd-core</artifactId>
+            <version>1.0.6</version>
         </dependency>
     </dependencies>
 

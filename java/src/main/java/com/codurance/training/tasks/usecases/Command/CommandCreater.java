@@ -1,17 +1,13 @@
-package com.codurance.training.tasks.adapters.Command;
+package com.codurance.training.tasks.usecases.Command;
 
 import com.codurance.training.tasks.entities.ProjectList;
-import com.codurance.training.tasks.usecases.Command.Command;
+import com.codurance.training.tasks.entities.ProjectListId;
+import com.codurance.training.tasks.usecases.Command.CommandMethod.*;
 import com.codurance.training.tasks.usecases.input.InputInterface;
-import com.codurance.training.tasks.usecases.Command.CommandMethod.showCommand;
-import com.codurance.training.tasks.usecases.Command.CommandMethod.addCommand;
-import com.codurance.training.tasks.usecases.Command.CommandMethod.checkCommand;
-import com.codurance.training.tasks.usecases.Command.CommandMethod.uncheckCommand;
-import com.codurance.training.tasks.usecases.Command.CommandMethod.helpCommand;
-import com.codurance.training.tasks.usecases.Command.CommandMethod.errorCommand;
 
 public class CommandCreater{
-    private static final ProjectList projectList = new ProjectList();
+    private static final ProjectListId DEFAULT_PROJECT_LIST_ID = ProjectListId.of("001");
+    private static final ProjectList projectList = new ProjectList(DEFAULT_PROJECT_LIST_ID);
     public static Command create(InputInterface commandIn){
         String[] commandRest = commandIn.getCommandIn().split(" ", 2);
         String command = commandRest[0];

@@ -1,6 +1,8 @@
 package com.codurance.training.tasks.entities;
 
-public final class Task {
+import tw.teddysoft.ezddd.core.entity.Entity;
+
+public class Task implements Entity<TaskId> {
     private final TaskId id;
     private final String description;
     private boolean done;
@@ -11,6 +13,7 @@ public final class Task {
         this.done = done;
     }
 
+    @Override
     public TaskId getId() {
         return id;
     }

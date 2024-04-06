@@ -19,13 +19,13 @@ public class addCommand implements Command {
         projectList.addProject(project.getName(), new ArrayList<Task>());
     }
 
-    private void addTask(Project project, String description) {
-        if (project == null) {
-            commandOut.addCommandOut("Could not find a project with the name.");
+    private void addTask(ProjectName name, String description) {
+        if (!projectList.containsProject(name)) {
+            commandOut.addCommandOut(String.format("Could not find a project with the name %s.", name));
             commandOut.addCommandOut("\n");
             return;
         }
-        projectList.getTasks(project.getName()).add(new Task(TaskId.of(projectList.nextId()), description, false));
+        projectList.addTask(name, TaskId.of(projectList.nextId()), description, false);
     }
 
     @Override
@@ -38,7 +38,7 @@ public class addCommand implements Command {
             String[] projectWithTask = subcommandRest[1].split(" ", 2);
             ProjectName projectName = ProjectName.of(projectWithTask[0]);
             String task = projectWithTask[1];
-            addTask(projectList.getExistProject(projectName), task);
+            addTask(projectName, task);
         }
         return this.commandOut;
     }
