@@ -1,3 +1,7 @@
+HW5
+
+根據上課修改 entites layer 以 teddysoft.ezddd 來定義aggregateRoot(新增 ProjectListID)、entity、valueObject，並且添加ReadOnlyTask、ReadOnlyProject 避免修改
+
 HW4
 
 根據上課修改 entites layer 修改 ProjectList 並且修改 ProjectList 相關的函式，並且修改 usecases -> Command -> 每一個(CommandMethod) executeCommand 將抽出的函式inline回去
