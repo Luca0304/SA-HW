@@ -59,4 +59,27 @@ public class ProjectList extends AggregateRoot<ProjectListId, DomainEvent> {
                         .findFirst().get();
         project_Find.addTask(taskId, description, done);
     }
+
+    public boolean setDone(String idString, boolean done){
+        TaskId id = TaskId.of(Long.parseLong(idString));
+        for (var project : this.projects) {
+            for (Task task : project.getTasks()) {
+                if (task.getId().equals(id)) {
+                    task.setDone(done);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+//    public void addTask(String name, String description) {
+//        ProjectName projectName = ProjectName.of(name);
+//        if (!this.containsProject(projectName)) {
+//            out.printf(String.format("Could not find a project with the name %s.", projectName));
+//            out.printf("\n");
+//            return;
+//        }
+//        projectList.addTask(projectName, TaskId.of(projectList.nextId()), description, false);
+//    }
 }

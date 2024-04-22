@@ -1,16 +1,23 @@
 package com.codurance.training.tasks;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintWriter;
-
+import com.codurance.training.tasks.adapters.presenter.AddTaskConsolePresenter;
+import com.codurance.training.tasks.adapters.presenter.ErrorConsolePresenter;
+import com.codurance.training.tasks.adapters.presenter.HelpConsolePresenter;
+import com.codurance.training.tasks.adapters.presenter.SetDoneConsolePresenter;
 import com.codurance.training.tasks.app.TaskListApp;
+import com.codurance.training.tasks.usecases.ProjectListInMemoryRepository;
+import com.codurance.training.tasks.usecases.port.input.projectList.error.ErrorUseCase;
+import com.codurance.training.tasks.usecases.port.input.projectList.help.HelpUseCase;
+import com.codurance.training.tasks.usecases.port.input.projectList.setdone.SetDoneUseCase;
+import com.codurance.training.tasks.usecases.port.input.projectList.show.ShowUseCase;
+import com.codurance.training.tasks.usecases.port.input.task.add.AddTaskUseCase;
+import com.codurance.training.tasks.usecases.port.output.ProjectListRepository;
+import com.codurance.training.tasks.usecases.service.*;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.*;
 
 import static java.lang.System.lineSeparator;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -29,7 +36,14 @@ public final class ApplicationTest {
     public ApplicationTest() throws IOException {
         BufferedReader in = new BufferedReader(new InputStreamReader(new PipedInputStream(inStream)));
         PrintWriter out = new PrintWriter(new PipedOutputStream(outStream), true);
-        TaskListApp taskListApp = new TaskListApp(in, out);
+        ProjectListRepository repository = new ProjectListInMemoryRepository();
+        ShowUseCase showUseCase = new ShowService(repository);
+        AddTaskUseCase addTaskUseCase = new AddTaskService(repository, new AddTaskConsolePresenter(out));
+        SetDoneUseCase setDoneUseCase = new SetDoneService(repository, new SetDoneConsolePresenter(out));
+        HelpUseCase helpUseCase = new HelpService(new HelpConsolePresenter(out));
+        ErrorUseCase errorUseCase = new ErrorService(new ErrorConsolePresenter(out));
+        repository.save(TaskListApp.projectList);
+        TaskListApp taskListApp = new TaskListApp(in, out, repository, showUseCase, addTaskUseCase, setDoneUseCase, helpUseCase, errorUseCase);
         applicationThread = new Thread(taskListApp);
     }
 
