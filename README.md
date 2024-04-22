@@ -1,3 +1,7 @@
+04/21、22
+
+根據上課修改 showUseCase, addTaskUseCase, setDoneUseCase, helpUseCase, errorUseCase 以及 repository 並injection 到 controller.
+
 HW5
 
 根據上課修改 entites layer 以 teddysoft.ezddd 來定義aggregateRoot(新增 ProjectListID)、entity、valueObject，並且添加ReadOnlyTask、ReadOnlyProject 避免修改
